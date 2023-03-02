@@ -19,37 +19,40 @@ public class WaitingScanDialog extends JDialog implements KeyListener {
 
     private final static String YUNOST_SANKEY = "198";
     private final ImageIcon checkIcon;
-    private final ImageIcon crossIcon = new ImageIcon("images/cross.png");
+    private final ImageIcon crossIcon;
     private final StringBuilder stringBuilder;
     private final MealSeanceType meal;
-    private JLabel labelText;
-    private JLabel labelImage;
-    private List<Relaxer> relaxers;
+    private final JLabel labelText;
+    private final JLabel labelImage;
+    private final List<Relaxer> relaxers;
     public WaitingScanDialog(List<Relaxer> relaxers, MealSeanceType meal) {
-        checkIcon = new ImageIcon("images/check.png");
+        checkIcon = new ImageIcon(getClass().getClassLoader().getResource("images/check.png"));
+        crossIcon = new ImageIcon(getClass().getClassLoader().getResource("images/cross.png"));
         stringBuilder = new StringBuilder();
         this.relaxers = relaxers;
         this.meal = meal;
 
         setTitle("Сканирование");
         Dimension screenSize = this.getToolkit().getScreenSize();
-        setPreferredSize(new Dimension(screenSize.width/3, screenSize.height/3));
-        setLocation(screenSize.width/3, screenSize.height/3);
+        setPreferredSize(new Dimension(screenSize.width/2, screenSize.height/2));
+        setLocation(screenSize.width/4, screenSize.height/4);
 
-        labelText = new JLabel("Пусто  ");
-        labelImage = new JLabel(checkIcon);
+        JPanel panel = new JPanel();
+        labelText = new JLabel("Ожидание");
+        labelText.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+        labelImage = new JLabel();
 
         DefaultFormBuilder builder =
-                new DefaultFormBuilder(new FormLayout("$lcg, 100dlu", "5dlu, p, $lg, p, $lg"))
+                new DefaultFormBuilder(new FormLayout("center:350dlu", "5dlu, p, $lg, p, $lg"))
                 .border(Borders.DIALOG);
 
-        builder.nextColumn();
         builder.nextRow();
         builder.append(labelText);
-        builder.nextLine(2);
+        builder.nextLine(4);
         builder.append(labelImage);
         builder.nextLine();
-        add(builder.getPanel());
+        panel.add(builder.getPanel());
+        add(panel);
 
         addKeyListener(this);
     }
@@ -74,6 +77,7 @@ public class WaitingScanDialog extends JDialog implements KeyListener {
                     .findFirst();
             if (oRelaxer.isPresent() && YUNOST_SANKEY.equals(sanKey)) {
                 labelText.setText(oRelaxer.get().getIndividual().toString());
+                labelImage.setIcon(checkIcon);
                 MealCheck mealCheck = new MealCheck();
                 mealCheck.setRelaxer(oRelaxer.get());
                 mealCheck.setCheckDate(new Date());
@@ -82,10 +86,12 @@ public class WaitingScanDialog extends JDialog implements KeyListener {
                 return;
             }
         } catch (Exception e) {
-            labelText.setText("Неверный qr");
+            labelText.setText("Неверный QR-код");
+            labelImage.setIcon(crossIcon);
             return;
         }
         labelText.setText("Отдыхающий не найден");
+        labelImage.setIcon(crossIcon);
     }
 
     @Override
