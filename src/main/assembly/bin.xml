@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<dependencySets>
+		<!--<dependencySet>
+			<scope>runtime</scope>
+			<outputDirectory>lib</outputDirectory>
+		</dependencySet>-->
+	</dependencySets>
+
+	<fileSets>
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>${ds.prop}</include>
+			</includes>
+			<outputDirectory></outputDirectory>
+		</fileSet>
+	</fileSets>
+	<files>
+		<file>
+			<source>target/${project.name}-${project.version}-shaded.jar</source>
+			<outputDirectory></outputDirectory>
+			<filtered>false</filtered>
+			<destName>${project.name}.jar</destName>
+		</file>
+		<!--		<file>
+                        <source>target/${project.name}.exe</source>
+                        <outputDirectory></outputDirectory>
+                        <filtered>false</filtered>
+                        <destName>${project.name}.exe</destName>
+                </file>		-->
+	</files>
+</assembly>

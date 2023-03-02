@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <session-factory name="sessionFactory">
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+
+        <property name="connection.url">jdbc:mysql://localhost:3306/ozerny</property>
+
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <mapping class="by.byport.mealscontrol.domain.entity.MealSeanceType" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Relaxer" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Individual" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Product" />
+        <mapping class="by.byport.mealscontrol.domain.entity.MealCheck" />
+
+    </session-factory>
+</hibernate-configuration>
