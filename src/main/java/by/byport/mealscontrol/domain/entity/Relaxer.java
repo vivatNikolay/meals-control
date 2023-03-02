@@ -78,7 +78,7 @@ public class Relaxer {
         this.state = state;
     }
 
-    @OneToMany(mappedBy = "relaxer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "relaxer")
     public Set<MealCheck> getMealCheckSet() {
         return mealCheckSet;
     }

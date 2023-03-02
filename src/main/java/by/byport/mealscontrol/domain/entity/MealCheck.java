@@ -25,6 +25,7 @@ public class MealCheck {
     }
 
     @ManyToOne
+    @JoinColumn(name = "relaxer")
     public Relaxer getRelaxer() {
         return relaxer;
     }

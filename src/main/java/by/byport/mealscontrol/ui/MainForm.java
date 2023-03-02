@@ -11,12 +11,16 @@ import java.awt.event.ActionEvent;
 public class MainForm extends JFrame {
 
     final RelaxerService relaxerService;
-    RelaxersTable relaxerTab;
+    JPanel relaxerTab;
 
     public MainForm(final MealSeanceTypeService mealService, final RelaxerService relaxerService) {
         super("Контроль питания");
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
         this.relaxerService = relaxerService;
-        FlatLightLaf.install(new FlatLightLaf());
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screenSize = this.getToolkit().getScreenSize();
@@ -33,7 +37,6 @@ public class MainForm extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     buttons.setVisible(false);
                     openRelaxersTab(mst);
-                    relaxerTab.setVisible(true);
                 }
             });
             b.setText(mst.getName());
@@ -44,7 +47,7 @@ public class MainForm extends JFrame {
         }
         contentPane.add(buttons);
 
-        relaxerTab = new RelaxersTable(relaxerService);
+        relaxerTab = new JPanel();
         relaxerTab.setVisible(false);
         contentPane.add(relaxerTab);
 
@@ -52,6 +55,7 @@ public class MainForm extends JFrame {
     }
 
     private void openRelaxersTab(MealSeanceType mst) {
-        relaxerTab.setMst(mst);
+        relaxerTab.add(new RelaxersTable(relaxerService, mst), 0);
+        relaxerTab.setVisible(true);
     }
 }

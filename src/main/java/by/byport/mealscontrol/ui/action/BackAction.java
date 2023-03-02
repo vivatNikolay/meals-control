@@ -1,16 +1,18 @@
 package by.byport.mealscontrol.ui.action;
 
+import by.byport.mealscontrol.domain.entity.MealCheck;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
 import by.byport.mealscontrol.domain.service.RelaxerService;
-import by.byport.mealscontrol.ui.WaitingScanDialog;
 import com.jgoodies.binding.list.SelectionInList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.HashSet;
+import java.util.Set;
 
-public class QrAction extends AbstractAction {
+public class BackAction extends AbstractAction {
 
     private static final long serialVersionUID = 2390307373069029736L;
 
@@ -19,8 +21,8 @@ public class QrAction extends AbstractAction {
     protected RelaxerService service;
     protected MealSeanceType mst;
 
-    public QrAction(Component parent, SelectionInList<Relaxer> selectionInList, RelaxerService service, MealSeanceType mst) {
-        super("Вкл. сканирование");
+    public BackAction(Component parent, SelectionInList<Relaxer> selectionInList, RelaxerService service, MealSeanceType mst) {
+        super("Завершить сеанс");
         this.parent = parent;
         this.selectionInList = selectionInList;
         this.service = service;
@@ -28,9 +30,11 @@ public class QrAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        JDialog dialog = new WaitingScanDialog(selectionInList.getList(), mst);
-        dialog.pack();
-        dialog.setResizable(false);
-        dialog.setVisible(true);
+        Set<MealCheck> mealCheckList = new HashSet<>();
+        for (Relaxer relaxer : selectionInList.getList()) {
+            mealCheckList.addAll(relaxer.getMealCheckSet());
+        }
+        service.saveMealChecks(mealCheckList);
+        //back action
     }
 }

@@ -9,8 +9,7 @@ public class RelaxerDao extends HibernateDaoSupport {
 
     public List<?> findForMeal(Date today) {
         return getHibernateTemplate().findByNamedParam("select"
-                + " r.relaxerId,"
-                + " ind.surname, ind.name, ind.patronymic"
+                + " r"
                 + " from Relaxer r"
                 + " left join r.individual ind"
                 + " left join r.relaxProduct product"
