@@ -2,7 +2,6 @@ package by.byport.mealscontrol.ui.action;
 
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
-import by.byport.mealscontrol.domain.service.RelaxerService;
 import by.byport.mealscontrol.ui.WaitingScanDialog;
 import com.jgoodies.binding.list.SelectionInList;
 
@@ -16,14 +15,12 @@ public class QrAction extends AbstractAction {
 
     protected Component parent;
     protected SelectionInList<Relaxer> selectionInList;
-    protected RelaxerService service;
     protected MealSeanceType mst;
 
-    public QrAction(Component parent, SelectionInList<Relaxer> selectionInList, RelaxerService service, MealSeanceType mst) {
+    public QrAction(Component parent, SelectionInList<Relaxer> selectionInList, MealSeanceType mst) {
         super("Вкл. сканирование");
         this.parent = parent;
         this.selectionInList = selectionInList;
-        this.service = service;
         this.mst = mst;
     }
 

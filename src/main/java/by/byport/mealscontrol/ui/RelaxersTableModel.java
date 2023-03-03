@@ -8,6 +8,7 @@ import org.apache.commons.lang.time.DateUtils;
 
 import javax.swing.*;
 import java.util.Date;
+import java.util.Set;
 
 public class RelaxersTableModel extends AbstractTableAdapter<Relaxer> {
 
@@ -45,10 +46,45 @@ public class RelaxersTableModel extends AbstractTableAdapter<Relaxer> {
         return false;
     }
 
+    @Override
+    public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        Relaxer relaxer = getRow(rowIndex);
+        if (value == null) {
+            return;
+        }
+        if (columnIndex == 3) {
+            getChangeMealCheckValue(relaxer);
+        }
+    }
+
+    private void getChangeMealCheckValue(Relaxer relaxer) {
+        Set<MealCheck> mealCheckSet = relaxer.getMealCheckSet();
+        if (!mealCheckSet.isEmpty()) {
+            for (MealCheck mealCheck : mealCheckSet) {
+                if (mealCheck.getMealSeanceType().equals(meal) && DateUtils.isSameDay(new Date(), mealCheck.getCheckDate())) {
+                    relaxer.getMealCheckSet().remove(mealCheck);
+                    return;
+                }
+            }
+        }
+        MealCheck mealCheck = new MealCheck();
+        mealCheck.setRelaxer(relaxer);
+        mealCheck.setCheckDate(new Date());
+        mealCheck.setMealSeanceType(meal);
+        relaxer.getMealCheckSet().add(mealCheck);
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (columnIndex == 3) {
+            return true;
+        }
+        return super.isCellEditable(rowIndex, columnIndex);
+    }
+
     public Class<?> getColumnClass(int columnIndex) {
-        switch (columnIndex) {
-            case 3:
-                return Boolean.class;
+        if (columnIndex == 3) {
+            return Boolean.class;
         }
         return super.getColumnClass(columnIndex);
     }
