@@ -2,7 +2,6 @@ package by.byport.mealscontrol.ui;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.service.MealSeanceTypeService;
 import by.byport.mealscontrol.domain.service.RelaxerService;
-import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,15 +10,11 @@ import java.awt.event.ActionEvent;
 public class MainForm extends JFrame {
 
     final RelaxerService relaxerService;
+    JPanel buttons;
     JPanel relaxerTab;
 
     public MainForm(final MealSeanceTypeService mealService, final RelaxerService relaxerService) {
         super("Контроль питания");
-        try {
-            UIManager.setLookAndFeel( new FlatLightLaf() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
         this.relaxerService = relaxerService;
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,7 +22,7 @@ public class MainForm extends JFrame {
 
         JPanel contentPane = new JPanel();
 
-        final JPanel buttons = new JPanel();
+        buttons = new JPanel();
         buttons.setLayout(new GridLayout(0, 1));
         for (final MealSeanceType mst : mealService.loadMealST()) {
             JPanel btnPanel = new JPanel();
@@ -35,7 +30,6 @@ public class MainForm extends JFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    buttons.setVisible(false);
                     openRelaxersTab(mst);
                 }
             });
@@ -55,7 +49,19 @@ public class MainForm extends JFrame {
     }
 
     private void openRelaxersTab(MealSeanceType mst) {
-        relaxerTab.add(new RelaxersTable(relaxerService, mst), 0);
-        relaxerTab.setVisible(true);
+        Component[] componentList = relaxerTab.getComponents();
+        for (Component c : componentList) {
+            relaxerTab.remove(c);
+        }
+        relaxerTab.revalidate();
+        relaxerTab.repaint();
+        relaxerTab.add(new RelaxersTable(this, relaxerService, mst), 0);
+        switchPanels();
+    }
+
+    public void switchPanels() {
+        boolean value = buttons.isVisible();
+        buttons.setVisible(!value);
+        relaxerTab.setVisible(value);
     }
 }

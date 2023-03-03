@@ -16,25 +16,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RelaxersTable extends JPanel {
-
-    private JXTable relaxersTable;
-    private final SelectionInList<Relaxer> relaxers;
-    private MealSeanceType mst;
-    private final RelaxerService service;
-    public RelaxersTable(final RelaxerService service, MealSeanceType mst) {
-        this.service = service;
-        this.mst = mst;
-        relaxers = new SelectionInList<>();
+    public RelaxersTable(MainForm parent, final RelaxerService service, MealSeanceType mst) {
+        SelectionInList<Relaxer> relaxers = new SelectionInList<>();
         relaxers.getList().addAll(service.getRelaxersForMeal());
 
         RelaxersTableModel tableModel = new RelaxersTableModel(relaxers, mst);
-        relaxersTable = new JXTable(tableModel);
+        JXTable relaxersTable = new JXTable(tableModel);
 
         DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("500dlu:g", "p, $lg, p, $lg, p"))
                 .border(Borders.DIALOG);
         builder.append(new ButtonBarBuilder()
                 .addButton(new QrAction(this, relaxers, service, mst))
-                .addButton(new BackAction(this, relaxers, service, mst))
+                .addButton(new BackAction(parent, relaxers, service, mst))
                 .build());
         builder.nextLine(2);
         builder.addSeparator(mst.getName());
@@ -42,9 +35,5 @@ public class RelaxersTable extends JPanel {
         builder.append(new JScrollPane(relaxersTable));
         add(builder.getPanel());
         setBackground(Color.WHITE);
-    }
-
-    public void setMst(MealSeanceType mst) {
-        this.mst = mst;
     }
 }

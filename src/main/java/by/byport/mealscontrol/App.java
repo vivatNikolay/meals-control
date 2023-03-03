@@ -1,6 +1,7 @@
 package by.byport.mealscontrol;
 
 import by.byport.mealscontrol.ui.MainForm;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.jgoodies.common.base.SystemUtils;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.theme.SkyBlue;
@@ -15,8 +16,6 @@ public class App {
         App app = new App();
         app.start();
     }
-
-    private static final String LF_CLASS_NAME = "com.jgoodies.looks.plastic.Plastic3DLookAndFeel";
     private ClassPathXmlApplicationContext ctx;
 
     public App() {
@@ -30,14 +29,10 @@ public class App {
     }
 
     private void initLookAndFill() {
-        PlasticLookAndFeel.setCurrentTheme(new SkyBlue());
         try {
-            if (SystemUtils.IS_OS_MAC){
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }else {
-                UIManager.setLookAndFeel(LF_CLASS_NAME);
-            }
-        } catch (Exception e) {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
         }
     }
 

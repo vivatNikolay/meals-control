@@ -4,6 +4,7 @@ import by.byport.mealscontrol.domain.entity.MealCheck;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
 import by.byport.mealscontrol.domain.service.RelaxerService;
+import by.byport.mealscontrol.ui.MainForm;
 import com.jgoodies.binding.list.SelectionInList;
 
 import javax.swing.*;
@@ -14,16 +15,14 @@ import java.util.Set;
 
 public class BackAction extends AbstractAction {
 
-    private static final long serialVersionUID = 2390307373069029736L;
+    private final MainForm mainForm;
+    private final SelectionInList<Relaxer> selectionInList;
+    private final RelaxerService service;
+    private final MealSeanceType mst;
 
-    protected Component parent;
-    protected SelectionInList<Relaxer> selectionInList;
-    protected RelaxerService service;
-    protected MealSeanceType mst;
-
-    public BackAction(Component parent, SelectionInList<Relaxer> selectionInList, RelaxerService service, MealSeanceType mst) {
+    public BackAction(MainForm mainForm, SelectionInList<Relaxer> selectionInList, RelaxerService service, MealSeanceType mst) {
         super("Завершить сеанс");
-        this.parent = parent;
+        this.mainForm = mainForm;
         this.selectionInList = selectionInList;
         this.service = service;
         this.mst = mst;
@@ -35,6 +34,6 @@ public class BackAction extends AbstractAction {
             mealCheckList.addAll(relaxer.getMealCheckSet());
         }
         service.saveMealChecks(mealCheckList);
-        //back action
+        mainForm.switchPanels();
     }
 }
