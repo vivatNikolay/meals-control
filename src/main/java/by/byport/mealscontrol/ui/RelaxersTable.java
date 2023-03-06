@@ -6,7 +6,6 @@ import by.byport.mealscontrol.domain.service.RelaxerService;
 import by.byport.mealscontrol.domain.utils.Localization;
 import by.byport.mealscontrol.ui.action.BackButton;
 import by.byport.mealscontrol.ui.action.QrButton;
-import by.byport.mealscontrol.ui.renderer.BirthCellRenderer;
 import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -18,7 +17,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import java.util.Date;
 
 public class RelaxersTable extends JPanel {
     private final JTextField searchField;
@@ -28,7 +26,11 @@ public class RelaxersTable extends JPanel {
         Localization localization = Localization.getInstance();
 
         SelectionInList<Relaxer> relaxers = new SelectionInList<>();
-        relaxers.getList().addAll(service.getRelaxersForMeal());
+        if (mst.getId() == 0) {
+            relaxers.getList().addAll(service.getRelaxersForBreakfast());
+        } else {
+            relaxers.getList().addAll(service.getRelaxersForOtherMeal());
+        }
 
         String[] columns = new String[] {
                 localization.translate("relaxers.tab.surname"),
@@ -44,6 +46,7 @@ public class RelaxersTable extends JPanel {
         searchField = new JTextField();
         sorter = new TableRowSorter<>(tableModel);
         JXTable relaxersTable = new JXTable(tableModel);
+//        relaxersTable.setDefaultRenderer(Date.class, new BirthCellRenderer());
         relaxersTable.setRowSorter(sorter);
 
         DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("600dlu:g", "p, $lg, p, $lg, p, p, $lg, p, $lg, p"))

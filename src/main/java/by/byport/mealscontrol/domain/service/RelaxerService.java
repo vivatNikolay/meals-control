@@ -16,9 +16,23 @@ public class RelaxerService {
     }
 
     @Transactional
-    public List<Relaxer> getRelaxersForMeal() {
+    public List<Relaxer> getRelaxersForBreakfast() {
         List<Relaxer> relaxers = new ArrayList<>();
-        for (Object row : relaxersDao.findForMeal(new Date())) {
+        for (Object row : relaxersDao.findForBreakfast(new Date())) {
+            Relaxer relaxer = (Relaxer) row;
+            Hibernate.initialize(relaxer.getMealCheckSet());
+            Hibernate.initialize(relaxer.getVisits());
+
+            relaxers.add(relaxer);
+        }
+
+        return relaxers;
+    }
+
+    @Transactional
+    public List<Relaxer> getRelaxersForOtherMeal() {
+        List<Relaxer> relaxers = new ArrayList<>();
+        for (Object row : relaxersDao.findForOtherMeal(new Date())) {
             Relaxer relaxer = (Relaxer) row;
             Hibernate.initialize(relaxer.getMealCheckSet());
             Hibernate.initialize(relaxer.getVisits());
