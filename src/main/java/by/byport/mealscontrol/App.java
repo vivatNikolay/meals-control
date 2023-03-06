@@ -2,9 +2,6 @@ package by.byport.mealscontrol;
 
 import by.byport.mealscontrol.ui.MainForm;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.jgoodies.common.base.SystemUtils;
-import com.jgoodies.looks.plastic.PlasticLookAndFeel;
-import com.jgoodies.looks.plastic.theme.SkyBlue;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -38,8 +35,7 @@ public class App {
 
     private void start() {
         final JFrame mainFrame = ctx.getBean("mainForm", MainForm.class);
-        SwingUtilities.invokeLater(new Runnable() {// Любые операции касающиеся swingoff должны
-            // производится в EDT
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     mainFrame.setVisible(true);

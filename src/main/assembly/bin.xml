@@ -24,7 +24,7 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>target/${project.name}-${project.version}-shaded.jar</source>
+			<source>target/${project.name}-${project.version}.jar</source>
 			<outputDirectory></outputDirectory>
 			<filtered>false</filtered>
 			<destName>${project.name}.jar</destName>
