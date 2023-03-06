@@ -3,6 +3,7 @@ package by.byport.mealscontrol.ui;
 import by.byport.mealscontrol.domain.entity.MealCheck;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
+import by.byport.mealscontrol.domain.utils.Localization;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
@@ -25,21 +26,24 @@ public class WaitingScanDialog extends JDialog implements KeyListener {
     private final JLabel labelText;
     private final JLabel labelImage;
     private final List<Relaxer> relaxers;
+    private final Localization localization;
 
     public WaitingScanDialog(List<Relaxer> relaxers, MealSeanceType meal) {
+        localization = Localization.getInstance();
+
         checkIcon = new ImageIcon(getClass().getClassLoader().getResource("images/check.png"));
         crossIcon = new ImageIcon(getClass().getClassLoader().getResource("images/cross.png"));
         stringBuilder = new StringBuilder();
         this.relaxers = relaxers;
         this.meal = meal;
 
-        setTitle("Сканирование");
+        setTitle(localization.translate("waiting.dialog.title"));
         Dimension screenSize = this.getToolkit().getScreenSize();
         setPreferredSize(new Dimension(screenSize.width / 2, screenSize.height / 2));
         setLocation(screenSize.width / 4, screenSize.height / 4);
 
         JPanel panel = new JPanel();
-        labelText = new JLabel("Ожидание");
+        labelText = new JLabel(localization.translate("waiting.dialog.waiting"));
         labelText.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
         labelImage = new JLabel();
 
@@ -78,7 +82,7 @@ public class WaitingScanDialog extends JDialog implements KeyListener {
                     if (!relaxer.getMealCheckSet().isEmpty()) {
                         for (MealCheck mealCheck : relaxer.getMealCheckSet()) {
                             if (mealCheck.getMealSeanceType().equals(meal) && DateUtils.isSameDay(new Date(), mealCheck.getCheckDate())) {
-                                labelText.setText(relaxer.getIndividual().toString() + " - повторное посещение");
+                                labelText.setText(relaxer.getIndividual().toString() + localization.translate("waiting.dialog.double.visit"));
                                 labelImage.setIcon(crossIcon);
                                 return;
                             }
@@ -96,11 +100,11 @@ public class WaitingScanDialog extends JDialog implements KeyListener {
                 }
             }
         } catch (Exception e) {
-            labelText.setText("Неверный QR-код");
+            labelText.setText(localization.translate("waiting.dialog.wrong.qr"));
             labelImage.setIcon(crossIcon);
             return;
         }
-        labelText.setText("Отдыхающий не найден");
+        labelText.setText(localization.translate("waiting.dialog.not.found"));
         labelImage.setIcon(crossIcon);
     }
 

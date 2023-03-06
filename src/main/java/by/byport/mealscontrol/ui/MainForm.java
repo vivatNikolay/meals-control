@@ -14,7 +14,7 @@ public class MainForm extends JFrame {
     JPanel relaxerTab;
 
     public MainForm(final MealSeanceTypeService mealService, final RelaxerService relaxerService) {
-        super("Контроль питания");
+        super("Meal control");
         this.relaxerService = relaxerService;
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

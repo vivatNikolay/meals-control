@@ -17,8 +17,8 @@ public class BackAction extends AbstractAction {
     private final SelectionInList<Relaxer> selectionInList;
     private final RelaxerService service;
 
-    public BackAction(MainForm mainForm, SelectionInList<Relaxer> selectionInList, RelaxerService service) {
-        super("Завершить сеанс");
+    public BackAction(String name, MainForm mainForm, SelectionInList<Relaxer> selectionInList, RelaxerService service) {
+        super(name);
         this.mainForm = mainForm;
         this.selectionInList = selectionInList;
         this.service = service;

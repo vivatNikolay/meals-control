@@ -17,8 +17,8 @@ public class QrAction extends AbstractAction {
     protected SelectionInList<Relaxer> selectionInList;
     protected MealSeanceType mst;
 
-    public QrAction(Component parent, SelectionInList<Relaxer> selectionInList, MealSeanceType mst) {
-        super("Вкл. сканирование");
+    public QrAction(String name, Component parent, SelectionInList<Relaxer> selectionInList, MealSeanceType mst) {
+        super(name);
         this.parent = parent;
         this.selectionInList = selectionInList;
         this.mst = mst;

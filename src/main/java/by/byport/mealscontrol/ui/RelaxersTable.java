@@ -3,6 +3,7 @@ package by.byport.mealscontrol.ui;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
 import by.byport.mealscontrol.domain.service.RelaxerService;
+import by.byport.mealscontrol.domain.utils.Localization;
 import by.byport.mealscontrol.ui.action.BackAction;
 import by.byport.mealscontrol.ui.action.QrAction;
 import com.jgoodies.binding.list.SelectionInList;
@@ -22,10 +23,18 @@ public class RelaxersTable extends JPanel {
     private final TableRowSorter sorter;
 
     public RelaxersTable(MainForm parent, final RelaxerService service, MealSeanceType mst) {
+        Localization localization = Localization.getInstance();
+
         SelectionInList<Relaxer> relaxers = new SelectionInList<>();
         relaxers.getList().addAll(service.getRelaxersForMeal());
 
-        RelaxersTableModel tableModel = new RelaxersTableModel(relaxers, mst);
+        String[] columns = new String[] {
+                localization.translate("relaxers.tab.surname"),
+                localization.translate("relaxers.tab.name"),
+                localization.translate("relaxers.tab.patronymic"),
+                localization.translate("relaxers.tab.check"),
+        };
+        RelaxersTableModel tableModel = new RelaxersTableModel(relaxers, mst, columns);
         searchField = new JTextField();
         sorter = new TableRowSorter<>(tableModel);
         JXTable relaxersTable = new JXTable(tableModel);
@@ -35,10 +44,10 @@ public class RelaxersTable extends JPanel {
                 .border(Borders.DIALOG);
         builder.append(new ButtonBarBuilder()
                 .addGlue()
-                .addButton(new QrAction(this, relaxers, mst))
+                .addButton(new QrAction(localization.translate("relaxers.tab.scan"), this, relaxers, mst))
                 .build());
         builder.nextLine(2);
-        builder.append("Поиск по фамилии", searchField);
+        builder.append(localization.translate("relaxers.tab.search"), searchField);
         builder.nextLine(2);
         builder.addSeparator(mst.getName());
         builder.nextLine(2);
@@ -46,7 +55,7 @@ public class RelaxersTable extends JPanel {
         builder.nextLine(2);
         builder.append(new ButtonBarBuilder()
                 .addGlue()
-                .addButton(new BackAction(parent, relaxers, service))
+                .addButton(new BackAction(localization.translate("relaxers.tab.back"), parent, relaxers, service))
                 .build());
         add(builder.getPanel());
 

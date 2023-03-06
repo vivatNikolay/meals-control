@@ -3,6 +3,7 @@ package by.byport.mealscontrol.ui;
 import by.byport.mealscontrol.domain.entity.MealCheck;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
+import by.byport.mealscontrol.domain.utils.Localization;
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
 import org.apache.commons.lang.time.DateUtils;
 
@@ -13,8 +14,8 @@ import java.util.Set;
 public class RelaxersTableModel extends AbstractTableAdapter<Relaxer> {
 
     private final MealSeanceType meal;
-    public RelaxersTableModel(ListModel listModel, MealSeanceType meal) {
-        super(listModel, "Фамилия", "Имя", "Отчество", "отметка");
+    public RelaxersTableModel(ListModel listModel, MealSeanceType meal, String[] columns) {
+        super(listModel, columns);
         this.meal = meal;
     }
 
