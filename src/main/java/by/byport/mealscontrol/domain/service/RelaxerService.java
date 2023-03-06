@@ -21,6 +21,7 @@ public class RelaxerService {
         for (Object row : relaxersDao.findForMeal(new Date())) {
             Relaxer relaxer = (Relaxer) row;
             Hibernate.initialize(relaxer.getMealCheckSet());
+            Hibernate.initialize(relaxer.getVisits());
 
             relaxers.add(relaxer);
         }

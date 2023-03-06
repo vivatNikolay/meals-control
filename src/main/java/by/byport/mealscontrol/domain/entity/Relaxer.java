@@ -1,9 +1,9 @@
 package by.byport.mealscontrol.domain.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "relaxers")
@@ -16,6 +16,9 @@ public class Relaxer {
     private Date departureDate;
     private int state;
     private Set<MealCheck> mealCheckSet = new HashSet<>();
+
+    private List<Visit> visits = new ArrayList<>();
+    private Order order;
 
     public Relaxer() {
     }
@@ -85,5 +88,27 @@ public class Relaxer {
 
     public void setMealCheckSet(Set<MealCheck> mealCheckSet) {
         this.mealCheckSet = mealCheckSet;
+    }
+    @OneToMany()
+    @Cascade({ org.hibernate.annotations.CascadeType.ALL })
+    @JoinColumn(name = "relaxer_id")
+    public List<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
+    }
+
+    @ManyToOne()
+    @JoinTable(name = "orders_relaxers",
+            joinColumns={@JoinColumn(name="relaxers_relaxer_id")},
+            inverseJoinColumns={@JoinColumn(name="orders_order_id")})
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

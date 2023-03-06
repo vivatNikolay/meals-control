@@ -3,7 +3,6 @@ package by.byport.mealscontrol.ui;
 import by.byport.mealscontrol.domain.entity.MealCheck;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
-import by.byport.mealscontrol.domain.utils.Localization;
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
 import org.apache.commons.lang.time.DateUtils;
 
@@ -30,6 +29,14 @@ public class RelaxersTableModel extends AbstractTableAdapter<Relaxer> {
             case 2:
                 return relaxer.getIndividual().getPatronymic();
             case 3:
+                return relaxer.getArrivalDate();
+            case 4:
+                return DateUtils.addDays(relaxer.getDepartureDate(), relaxer.getOrder().getDaysAccountingType());
+            case 5:
+                return relaxer.getVisits().get(0).getPlace().getRoom().getNumber();
+            case 6:
+                return relaxer.getIndividual().getDateOfBirth();
+            case 7:
                 return checkMeal(relaxer);
         }
 
@@ -53,7 +60,7 @@ public class RelaxersTableModel extends AbstractTableAdapter<Relaxer> {
         if (value == null) {
             return;
         }
-        if (columnIndex == 3) {
+        if (columnIndex == 7) {
             getChangeMealCheckValue(relaxer);
         }
     }
@@ -77,14 +84,17 @@ public class RelaxersTableModel extends AbstractTableAdapter<Relaxer> {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 3) {
+        if (columnIndex == 7) {
             return true;
         }
         return super.isCellEditable(rowIndex, columnIndex);
     }
 
     public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == 3) {
+        if (columnIndex == 3 || columnIndex == 4 || columnIndex == 6) {
+            return Date.class;
+        }
+        if (columnIndex == 7) {
             return Boolean.class;
         }
         return super.getColumnClass(columnIndex);

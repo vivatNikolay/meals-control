@@ -2,6 +2,7 @@ package by.byport.mealscontrol.ui;
 import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.service.MealSeanceTypeService;
 import by.byport.mealscontrol.domain.service.RelaxerService;
+import by.byport.mealscontrol.domain.utils.Localization;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,9 @@ public class MainForm extends JFrame {
     JPanel relaxerTab;
 
     public MainForm(final MealSeanceTypeService mealService, final RelaxerService relaxerService) {
-        super("Meal control");
+        super();
+        Localization localization = Localization.getInstance();
+        setTitle(localization.translate("main.form.title"));
         this.relaxerService = relaxerService;
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

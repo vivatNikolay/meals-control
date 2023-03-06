@@ -1,6 +1,7 @@
 package by.byport.mealscontrol.domain.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "individuals")
@@ -9,6 +10,7 @@ public class Individual {
     private String name;
     private String surname;
     private String patronymic;
+    private Date dateOfBirth;
 
     public Individual() {
     }
@@ -48,10 +50,19 @@ public class Individual {
         this.patronymic = patronymic;
     }
 
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     @Override
     public String toString() {
         return (surname != null ? surname : "") +
                 (name != null ? " " + name : "") +
-                (patronymic != null ? " " + patronymic : "");
+                (patronymic != null ? " " + patronymic : "") +
+                (dateOfBirth != null ? " " + dateOfBirth : "");
     }
 }

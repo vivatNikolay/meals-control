@@ -4,8 +4,9 @@ import by.byport.mealscontrol.domain.entity.MealSeanceType;
 import by.byport.mealscontrol.domain.entity.Relaxer;
 import by.byport.mealscontrol.domain.service.RelaxerService;
 import by.byport.mealscontrol.domain.utils.Localization;
-import by.byport.mealscontrol.ui.action.BackAction;
-import by.byport.mealscontrol.ui.action.QrAction;
+import by.byport.mealscontrol.ui.action.BackButton;
+import by.byport.mealscontrol.ui.action.QrButton;
+import by.byport.mealscontrol.ui.renderer.BirthCellRenderer;
 import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
+import java.util.Date;
 
 public class RelaxersTable extends JPanel {
     private final JTextField searchField;
@@ -32,6 +34,10 @@ public class RelaxersTable extends JPanel {
                 localization.translate("relaxers.tab.surname"),
                 localization.translate("relaxers.tab.name"),
                 localization.translate("relaxers.tab.patronymic"),
+                localization.translate("relaxers.tab.arrival"),
+                localization.translate("relaxers.tab.departure"),
+                localization.translate("relaxers.tab.room"),
+                localization.translate("relaxers.tab.birth"),
                 localization.translate("relaxers.tab.check"),
         };
         RelaxersTableModel tableModel = new RelaxersTableModel(relaxers, mst, columns);
@@ -40,22 +46,22 @@ public class RelaxersTable extends JPanel {
         JXTable relaxersTable = new JXTable(tableModel);
         relaxersTable.setRowSorter(sorter);
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("600dlu:g", "p, $lg, p,p, $lg, p, $lg, p, $lg, p"))
+        DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("600dlu:g", "p, $lg, p, $lg, p, p, $lg, p, $lg, p"))
                 .border(Borders.DIALOG);
         builder.append(new ButtonBarBuilder()
                 .addGlue()
-                .addButton(new QrAction(localization.translate("relaxers.tab.scan"), this, relaxers, mst))
+                .addButton(new QrButton(localization.translate("relaxers.tab.scan"), relaxers, mst))
                 .build());
         builder.nextLine(2);
-        builder.append(localization.translate("relaxers.tab.search"), searchField);
-        builder.nextLine(2);
         builder.addSeparator(mst.getName());
+        builder.nextLine(2);
+        builder.append(localization.translate("relaxers.tab.search"), searchField);
         builder.nextLine(2);
         builder.append(new JScrollPane(relaxersTable));
         builder.nextLine(2);
         builder.append(new ButtonBarBuilder()
                 .addGlue()
-                .addButton(new BackAction(localization.translate("relaxers.tab.back"), parent, relaxers, service))
+                .addButton(new BackButton(localization.translate("relaxers.tab.back"), parent, relaxers, service))
                 .build());
         add(builder.getPanel());
 

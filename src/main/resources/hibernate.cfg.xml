@@ -14,9 +14,13 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <mapping class="by.byport.mealscontrol.domain.entity.MealSeanceType" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Order" />
         <mapping class="by.byport.mealscontrol.domain.entity.Relaxer" />
         <mapping class="by.byport.mealscontrol.domain.entity.Individual" />
         <mapping class="by.byport.mealscontrol.domain.entity.Product" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Visit" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Place" />
+        <mapping class="by.byport.mealscontrol.domain.entity.Room" />
         <mapping class="by.byport.mealscontrol.domain.entity.MealCheck" />
 
     </session-factory>
