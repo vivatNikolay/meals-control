@@ -11,12 +11,17 @@ import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.FormLayout;
+import org.apache.commons.lang.time.DateUtils;
 import org.jdesktop.swingx.JXTable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RelaxersTable extends JPanel {
     private final JTextField searchField;
@@ -45,8 +50,27 @@ public class RelaxersTable extends JPanel {
         RelaxersTableModel tableModel = new RelaxersTableModel(relaxers, mst, columns);
         searchField = new JTextField();
         sorter = new TableRowSorter<>(tableModel);
-        JXTable relaxersTable = new JXTable(tableModel);
-//        relaxersTable.setDefaultRenderer(Date.class, new BirthCellRenderer());
+        JXTable relaxersTable = new JXTable(tableModel)
+        {
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+            {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    Date dateOfBirth = (Date) getValueAt(row, 6);
+                    Calendar cal1 = Calendar.getInstance();
+                    cal1.setTime(dateOfBirth);
+                    Calendar cal2 = Calendar.getInstance();
+                    cal2.setTime(new Date());
+                    boolean sameDayAndMonth = cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                            cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
+                    if (sameDayAndMonth) {
+                        c.setBackground(Color.YELLOW);
+                    }
+                }
+                return c;
+            }
+        };
         relaxersTable.setRowSorter(sorter);
 
         DefaultFormBuilder builder = new DefaultFormBuilder(new FormLayout("600dlu:g", "p, $lg, p, $lg, p, p, $lg, p, $lg, p"))
