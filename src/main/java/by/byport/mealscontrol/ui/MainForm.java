@@ -7,6 +7,8 @@ import by.byport.mealscontrol.domain.utils.Localization;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainForm extends JFrame {
 
@@ -22,6 +24,9 @@ public class MainForm extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screenSize = this.getToolkit().getScreenSize();
+
+        UIManager.put("OptionPane.noButtonText", localization.translate("main.no"));
+        UIManager.put("OptionPane.yesButtonText", localization.translate("main.yes"));
 
         JPanel contentPane = new JPanel();
 
@@ -49,6 +54,8 @@ public class MainForm extends JFrame {
         contentPane.add(relaxerTab);
 
         setContentPane(contentPane);
+
+        initEventHandling();
     }
 
     private void openRelaxersTab(MealSeanceType mst) {
@@ -66,5 +73,26 @@ public class MainForm extends JFrame {
         boolean value = buttons.isVisible();
         buttons.setVisible(!value);
         relaxerTab.setVisible(value);
+    }
+
+    private void initEventHandling() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                exit();
+            }
+        });
+    }
+
+    private void exit() {
+        if (relaxerTab.isVisible()) {
+            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            if (JOptionPane.showConfirmDialog(MainForm.this, "Вы действительно хотите закрыть программу без завершения сеанса?",
+                    "Подтверждение", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.OK_OPTION) {
+                this.dispose();
+            }
+        } else {
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
     }
 }
